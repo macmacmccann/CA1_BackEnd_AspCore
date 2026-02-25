@@ -2,12 +2,12 @@ namespace CA1_BackEnd.Models
 {
     public class Ingredient
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public decimal Price { get; set; }
-        public string Origin { get; set; }
-        public bool IsOrganic { get; set; }
-        public double Fats { get; set; }
-        public double Protein { get; set; }
+        public required int  Id { get; set; }
+        public required string Name { get; set; }
+        public required decimal Price { get; set; }
+        public required  string Origin { get; set; }
+        public required bool IsOrganic { get; set; }
+        public required  double Fats { get; set; }
+        public required double Protein { get; set; }
     }
 }

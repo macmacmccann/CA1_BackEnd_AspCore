@@ -9,31 +9,32 @@ variables:
 
 steps:
 - task: UseDotNet@2
+  displayName: 'grab the .net 8 sdk'
   inputs:
     version: '8.x'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Restore'
+  displayName: 'pull down all the nuget packages'
   inputs:
     command: 'restore'
     projects: '**/*.csproj'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Build'
+  displayName: 'compile the code'
   inputs:
     command: 'build'
     projects: '**/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Publish'
+  displayName: 'package it up ready to deploy'
   inputs:
     command: 'publish'
     publishWebProjects: true
     arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifacts'
+  displayName: 'save the build output'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
