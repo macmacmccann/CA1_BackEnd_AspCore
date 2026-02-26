@@ -21,5 +21,43 @@ namespace CA1_BackEnd.Controllers
         {
             return Ok(meals);
         }
+
+        [HttpGet("{id}")]
+        public ActionResult<Meal> GetMealById(int id)
+        {
+            var meal = meals.FirstOrDefault(m => m.Id == id);
+            if (meal == null)
+                return NotFound();
+
+            return Ok(meal);
+        }
+
+        [HttpGet("search/name/{name}")]
+        public ActionResult<IEnumerable<Meal>> GetByName(string name)
+        {
+            var result = meals.Where(m => m.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
+            return Ok(result);
+        }
+
+        [HttpGet("search/rating/{minRating}")]
+        public ActionResult<IEnumerable<Meal>> GetByRating(double minRating)
+        {
+            var result = meals.Where(m => m.Rating >= minRating);
+            return Ok(result);
+        }
+
+        [HttpGet("search/servings/{servings}")]
+        public ActionResult<IEnumerable<Meal>> GetByServings(int servings)
+        {
+            var result = meals.Where(m => m.Servings == servings);
+            return Ok(result);
+        }
+
+        [HttpGet("search/category/{category}")]
+        public ActionResult<IEnumerable<Meal>> GetByCategory(string category)
+        {
+            var result = meals.Where(m => m.Category.Equals(category, StringComparison.OrdinalIgnoreCase));
+            return Ok(result);
+        }
     }
 }

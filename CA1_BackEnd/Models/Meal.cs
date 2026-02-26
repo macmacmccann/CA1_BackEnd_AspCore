@@ -2,17 +2,17 @@ namespace CA1_BackEnd.Models
 {
     public class Meal
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Picture { get; set; }
-        public double TotalFat { get; set; }
-        public double Rating { get; set; }
-        public string Difficulty { get; set; }
-        public int PrepTime { get; set; }
-        public int CookTime { get; set; }
-        public int Servings { get; set; }
-        public double Calories { get; set; }
-        public double Protein { get; set; }
-        public string Category { get; set; }
+        public required int Id { get; set; }
+        public required string Name { get; set; }
+        public string? Picture { get; set; }
+        public required double TotalFat { get; set; }
+        public double? Rating { get; set; }
+        public required string Difficulty { get; set; }
+        public required int PrepTime { get; set; }
+        public required int CookTime { get; set; }
+        public required int Servings { get; set; }
+        public required double Calories { get; set; }
+        public required double Protein { get; set; }
+        public required string Category { get; set; }
     }
 }
