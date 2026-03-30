@@ -13,6 +13,7 @@ namespace CA1_BackEnd.Controllers
             new Meal { Id = 6, Name = "Vegetable Fried Rice", Picture = "fried-rice.jpg", TotalFat = 10.5, Rating = 4.3, Difficulty = "Easy", PrepTime = 25, CookTime = 15, Servings = 4, Calories = 260, Protein = 9, Category = "Dinner" },
             new Meal { Id = 7, Name = "Chicken Curry", Picture = "chicken-curry.jpg", TotalFat = 24.0, Rating = 4.1, Difficulty = "Medium", PrepTime = 30, CookTime = 20, Servings = 5, Calories = 560, Protein = 38, Category = "Dinner" },
             new Meal { Id = 8, Name = "Fruit Salad", Picture = "fruit-salad.jpg", TotalFat = 1.5, Rating = 4.9, Difficulty = "Easy", PrepTime = 10, CookTime = 5, Servings = 2, Calories = 70, Protein = 6, Category = "Snack" }
+        };
 
         [HttpGet]
         public ActionResult<IEnumerable<Meal>> GetAllMeals()
@@ -52,6 +53,7 @@ namespace CA1_BackEnd.Controllers
             return Ok(result);
         }
 
+        // get meals by rating
         [HttpGet("search/rating/{rating}")]
         public ActionResult<IEnumerable<Meal>> GetByRating(double rating)
         {
@@ -59,6 +61,7 @@ namespace CA1_BackEnd.Controllers
             return Ok(result);
         }
 
+        // get meals by difficulty
         [HttpGet("search/difficulty/{difficulty}")]
         public ActionResult<IEnumerable<Meal>> GetByDifficulty(string difficulty)
         {
@@ -66,6 +69,7 @@ namespace CA1_BackEnd.Controllers
             return Ok(result);
         }
 
+        // get meals by prep time
         [HttpGet("search/prepTime/{prepTime}")]
         public ActionResult<IEnumerable<Meal>> GetByPrepTime(int prepTime)
         {
@@ -73,6 +77,7 @@ namespace CA1_BackEnd.Controllers
             return Ok(result);
         }
 
+        // get meals by cook time
         [HttpGet("search/cookTime/{cookTime}")]
         public ActionResult<IEnumerable<Meal>> GetByCookTime(int cookTime)
         {
@@ -80,6 +85,7 @@ namespace CA1_BackEnd.Controllers
             return Ok(result);
         }
 
+        // get meals by servings
         [HttpGet("search/servings/{servings}")]
         public ActionResult<IEnumerable<Meal>> GetByServings(int servings)
         {
@@ -87,6 +93,7 @@ namespace CA1_BackEnd.Controllers
             return Ok(result);
         }
 
+        // get meals by calories
         [HttpGet("search/calories/{calories}")]
         public ActionResult<IEnumerable<Meal>> GetByCalories(double calories)
         {
@@ -94,10 +101,13 @@ namespace CA1_BackEnd.Controllers
             return Ok(result);
         }
 
+        // get meals by protein
         [HttpGet("search/protein/{protein}")]
         public ActionResult<IEnumerable<Meal>> GetByProtein(double protein)
         {
             var result = meals.Where(m => m.Protein == protein);
             return Ok(result);
         }
+    }
+}
 
