@@ -53,7 +53,6 @@ namespace CA1_BackEnd.Controllers
             return Ok(result);
         }
 
-        // get meals by rating
         [HttpGet("search/rating/{rating}")]
         public ActionResult<IEnumerable<Meal>> GetByRating(double rating)
         {
@@ -61,7 +60,6 @@ namespace CA1_BackEnd.Controllers
             return Ok(result);
         }
 
-        // get meals by difficulty
         [HttpGet("search/difficulty/{difficulty}")]
         public ActionResult<IEnumerable<Meal>> GetByDifficulty(string difficulty)
         {
@@ -69,7 +67,6 @@ namespace CA1_BackEnd.Controllers
             return Ok(result);
         }
 
-        // get meals by prep time
         [HttpGet("search/prepTime/{prepTime}")]
         public ActionResult<IEnumerable<Meal>> GetByPrepTime(int prepTime)
         {
@@ -77,7 +74,6 @@ namespace CA1_BackEnd.Controllers
             return Ok(result);
         }
 
-        // get meals by cook time
         [HttpGet("search/cookTime/{cookTime}")]
         public ActionResult<IEnumerable<Meal>> GetByCookTime(int cookTime)
         {
@@ -85,7 +81,6 @@ namespace CA1_BackEnd.Controllers
             return Ok(result);
         }
 
-        // get meals by servings
         [HttpGet("search/servings/{servings}")]
         public ActionResult<IEnumerable<Meal>> GetByServings(int servings)
         {
@@ -93,7 +88,6 @@ namespace CA1_BackEnd.Controllers
             return Ok(result);
         }
 
-        // get meals by calories
         [HttpGet("search/calories/{calories}")]
         public ActionResult<IEnumerable<Meal>> GetByCalories(double calories)
         {
@@ -101,12 +95,60 @@ namespace CA1_BackEnd.Controllers
             return Ok(result);
         }
 
-        // get meals by protein
         [HttpGet("search/protein/{protein}")]
         public ActionResult<IEnumerable<Meal>> GetByProtein(double protein)
         {
             var result = meals.Where(m => m.Protein == protein);
             return Ok(result);
+        }
+
+        // HTTP POST method to create a new meal
+        [HttpPost]
+        public ActionResult<Meal> CreateMeal([FromBody] Meal meal)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            meals.Add(meal);
+            return CreatedAtAction(nameof(GetMealById), new { id = meal.Id }, meal);
+        }
+
+        // HTTP PUT method to update an existing meal
+        [HttpPut("{id}")]
+        public ActionResult<Meal> UpdateMeal(int id, [FromBody] Meal updatedMeal)
+        {
+            var meal = meals.FirstOrDefault(m => m.Id == id);
+            if (meal == null)
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            meal.Name = updatedMeal.Name;
+            meal.Picture = updatedMeal.Picture;
+            meal.TotalFat = updatedMeal.TotalFat;
+            meal.Rating = updatedMeal.Rating;
+            meal.Difficulty = updatedMeal.Difficulty;
+            meal.PrepTime = updatedMeal.PrepTime;
+            meal.CookTime = updatedMeal.CookTime;
+            meal.Servings = updatedMeal.Servings;
+            meal.Calories = updatedMeal.Calories;
+            meal.Protein = updatedMeal.Protein;
+            meal.Category = updatedMeal.Category;
+
+            return Ok(meal);
+        }
+
+        // HTTP DELETE method to delete a meal
+        [HttpDelete("{id}")]
+        public ActionResult DeleteMeal(int id)
+        {
+            var meal = meals.FirstOrDefault(m => m.Id == id);
+            if (meal == null)
+                return NotFound();
+
+            meals.Remove(meal);
+            return Ok(meal);
         }
     }
 }
