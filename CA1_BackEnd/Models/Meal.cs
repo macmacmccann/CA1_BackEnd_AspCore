@@ -14,5 +14,15 @@ namespace CA1_BackEnd.Models
         public required double Calories { get; set; }
         public required double Protein { get; set; }
         public required string Category { get; set; }
+        public string? Description { get; set; } 
+        public bool IsVegetarian { get; set; }
+
+        public double TotalProtein { get; set; }
+
+       public double TotalCarbohydrates { get; set; } // New property for total carbohydrates
+       public double TotalFiber { get; set; } // New property for total fiber
+
+        public double TotalCholesterol { get; set; } // New property for total cholesterol
     }
 }
+

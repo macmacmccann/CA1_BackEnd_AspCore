@@ -9,6 +9,7 @@ namespace CA1_BackEnd.Controllers
     {
         private static List<Ingredient> ingredients = new List<Ingredient>
         {
+            // existing ingredients
             new Ingredient { Id = 1, Name = "Chicken", Price = 8.99m, Origin = "Ireland", IsOrganic = true, Fats = 3.6, Protein = 31.0 },
             new Ingredient { Id = 2, Name = "Rice", Price = 2.50m, Origin = "Italy", IsOrganic = false, Fats = 0.3, Protein = 2.7 },
             new Ingredient { Id = 3, Name = "Tomato", Price = 1.20m, Origin = "Spain", IsOrganic = true, Fats = 0.2, Protein = 0.9 },
@@ -125,6 +126,33 @@ namespace CA1_BackEnd.Controllers
             return Ok(result);
         }
 
+        // new Put method
+        [HttpPut("{id}")]
+        public ActionResult UpdateIngredient(int id, Ingredient updatedIngredient)
+        {
+            var ingredientIndex = ingredients.FindIndex(i => i.Id == id);
 
+            if (ingredientIndex == -1)
+                return NotFound();
+
+            ingredients[ingredientIndex] = updatedIngredient;
+
+            return Ok(ingredients[ingredientIndex]);
+        }
+
+        // new simple Put method
+        [HttpPut("simple-update")]
+        public ActionResult SimpleUpdateIngredient(int id, Ingredient simpleUpdatedIngredient)
+        {
+            var ingredientIndex = ingredients.FindIndex(i => i.Id == id);
+
+            if (ingredientIndex == -1)
+                return NotFound();
+
+            ingredients[ingredientIndex].Name = simpleUpdatedIngredient.Name;
+            ingredients[ingredientIndex].Price = simpleUpdatedIngredient.Price;
+
+            return Ok(ingredients[ingredientIndex]);
+        }
     }
 }
