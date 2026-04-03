@@ -27,6 +27,9 @@ jobs:
         with:
           dotnet-version: '8.x'
 
+      - name: Restore packages
+        run: dotnet restore "CA1_BackEnd/CA1_BackEnd.sln"
+  
       - name: Build with dotnet
         run: dotnet build "CA1_BackEnd/CA1_BackEnd.sln" --configuration Release --no-restore
 
