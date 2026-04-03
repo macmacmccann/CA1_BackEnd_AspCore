@@ -18,16 +18,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: List repo files
+        run: dir . /s *.sln *.csproj
+
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.x'
 
       - name: Build with dotnet
-        run: dotnet build "CA1_BackEnd_AspCore/CA1_BackEnd_AspCore.sln" --configuration Release --no-restore
+        run: dotnet build "/CA1_BackEnd_AspCore.sln" --configuration Release --no-restore
 
       - name: dotnet publish
-        run: dotnet publish "CA1_BackEnd_AspCore/CA1_BackEnd.csproj" --configuration Release --no-build --output "./publish"
+        run: dotnet publish "/CA1_BackEnd.csproj" --configuration Release --no-build --output "./publish"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
