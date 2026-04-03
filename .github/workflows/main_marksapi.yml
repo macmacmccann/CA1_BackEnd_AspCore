@@ -19,7 +19,8 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: List repo files
-        run: dir . /s *.sln *.csproj
+        run: Get-ChildItem -Path . -Recurse -Include *.sln,*.csproj | Select-Object FullName
+
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
