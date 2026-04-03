@@ -115,7 +115,7 @@ namespace CA1_BackEnd.Controllers
             var result = ingredients.Where(i => i.IsOrganic == isOrganic);
             return Ok(result);
         }
-
+        // x
 
 
         // page 
