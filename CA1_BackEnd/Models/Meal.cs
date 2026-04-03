@@ -1,3 +1,6 @@
+// hi
+// hi again - testing file editing
+
 namespace CA1_BackEnd.Models
 {
     public class Meal
@@ -23,6 +26,8 @@ namespace CA1_BackEnd.Models
        public double TotalFiber { get; set; } // New property for total fiber
 
         public double TotalCholesterol { get; set; } // New property for total cholesterol
+
+  
     }
 }
 

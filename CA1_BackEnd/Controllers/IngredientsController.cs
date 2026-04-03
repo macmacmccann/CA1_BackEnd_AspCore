@@ -154,5 +154,44 @@ namespace CA1_BackEnd.Controllers
 
             return Ok(ingredients[ingredientIndex]);
         }
+
+    // new Post method to add a new ingredient
+        [HttpPost]
+        public ActionResult AddIngredient(Ingredient newIngredient)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest("Invalid data.");
+            
+            ingredients.Add(newIngredient);
+            return CreatedAtAction(nameof(GetIngredientById), new { id = newIngredient.Id }, newIngredient);
+        }
+        
+        // new Delete method to remove an ingredient by ID
+        [HttpDelete("{id}")]
+        public ActionResult RemoveIngredient(int id)
+        {
+            var ingredientIndex = ingredients.FindIndex(i => i.Id == id);
+            
+            if (ingredientIndex == -1)
+                return NotFound();
+                
+            ingredients.RemoveAt(ingredientIndex);
+            return NoContent(); // Returns 204 status code to indicate successful deletion without returning any content
+        }
+        
+        // new method to get organic or non-organic ingredients
+        [HttpGet("isOrganic/{isOrganic}")]
+        public ActionResult<IEnumerable<Ingredient>> GetByIsOrganic(bool isOrganic)
+        {
+            var result = ingredients.Where(i => i.IsOrganic == isOrganic);
+            return Ok(result);
+        }
     }
-}
+
+
+
+
+    }
+
+
+

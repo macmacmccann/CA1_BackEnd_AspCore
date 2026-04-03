@@ -10,6 +10,7 @@ namespace CA1_BackEnd
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.WebHost.UseUrls("http://0.0.0.0:5228");
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -23,7 +24,7 @@ namespace CA1_BackEnd
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+          //  app.UseHttpsRedirection();
 
             app.UseAuthorization();
 
