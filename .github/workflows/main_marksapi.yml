@@ -40,7 +40,7 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: .net-app
+          name: webapp
           path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
