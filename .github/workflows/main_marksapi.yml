@@ -24,10 +24,10 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Build with dotnet
-        run: dotnet build ./CA1_BackEnd_AspCore.sln
+        run: dotnet build "./CA1_BackEnd_AspCore/CA1_BackEnd_AspCore.sln" --configuration Release --no-restore
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ./CA1_BackEnd_AspCore.sln
+        run: dotnet publish "./CA1_BackEnd_AspCore/CA1_BackEnd.csproj" --configuration Release --no-build --output "./publish"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
