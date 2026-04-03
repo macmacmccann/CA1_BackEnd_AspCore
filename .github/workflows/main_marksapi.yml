@@ -47,6 +47,7 @@ jobs:
     runs-on: windows-latest
     needs: build
     permissions:
+        contents: read 
    
     steps:
       - name: Download artifact from build job
