@@ -1,3 +1,4 @@
+using CA1_BackEnd.Data;
 using CA1_BackEnd.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,13 +8,7 @@ namespace CA1_BackEnd.Controllers
     [ApiController]
     public class MealsController : ControllerBase
     {
-        private static List<Meal> meals = new List<Meal>
-        {
-            // Existing meal objects...
-            new Meal { Id = 6, Name = "Vegetable Fried Rice", Picture = "fried-rice.jpg", TotalFat = 10.5, Rating = 4.3, Difficulty = "Easy", PrepTime = 25, CookTime = 15, Servings = 4, Calories = 260, Protein = 9, Category = "Dinner" },
-            new Meal { Id = 7, Name = "Chicken Curry", Picture = "chicken-curry.jpg", TotalFat = 24.0, Rating = 4.1, Difficulty = "Medium", PrepTime = 30, CookTime = 20, Servings = 5, Calories = 560, Protein = 38, Category = "Dinner" },
-            new Meal { Id = 8, Name = "Fruit Salad", Picture = "fruit-salad.jpg", TotalFat = 1.5, Rating = 4.9, Difficulty = "Easy", PrepTime = 10, CookTime = 5, Servings = 2, Calories = 70, Protein = 6, Category = "Snack" }
-        };
+        private static List<Meal> meals => DataStore.Meals;
 
         [HttpGet]
         public ActionResult<IEnumerable<Meal>> GetAllMeals()
@@ -45,7 +40,6 @@ namespace CA1_BackEnd.Controllers
             return Ok(result);
         }
 
-        // New search methods for each property
         [HttpGet("search/totalFat/{totalFat}")]
         public ActionResult<IEnumerable<Meal>> GetByTotalFat(double totalFat)
         {
@@ -102,7 +96,6 @@ namespace CA1_BackEnd.Controllers
             return Ok(result);
         }
 
-        // HTTP POST method to create a new meal
         [HttpPost]
         public ActionResult<Meal> CreateMeal([FromBody] Meal meal)
         {
@@ -113,7 +106,6 @@ namespace CA1_BackEnd.Controllers
             return CreatedAtAction(nameof(GetMealById), new { id = meal.Id }, meal);
         }
 
-        // HTTP PUT method to update an existing meal
         [HttpPut("{id}")]
         public ActionResult<Meal> UpdateMeal(int id, [FromBody] Meal updatedMeal)
         {
@@ -135,12 +127,11 @@ namespace CA1_BackEnd.Controllers
             meal.Calories = updatedMeal.Calories;
             meal.Protein = updatedMeal.Protein;
             meal.Category = updatedMeal.Category;
+            meal.PlanId = updatedMeal.PlanId;
 
             return Ok(meal);
         }
-        //init azure workflow 
 
-        // HTTP DELETE method to delete a meal
         [HttpDelete("{id}")]
         public ActionResult DeleteMeal(int id)
         {
@@ -153,4 +144,3 @@ namespace CA1_BackEnd.Controllers
         }
     }
 }
-

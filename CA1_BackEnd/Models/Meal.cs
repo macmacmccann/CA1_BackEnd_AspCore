@@ -20,6 +20,8 @@ namespace CA1_BackEnd.Models
         public string? Description { get; set; } 
         public bool IsVegetarian { get; set; }
 
+        public int? PlanId { get; set; }
+
         public double TotalProtein { get; set; }
 
        public double TotalCarbohydrates { get; set; } // New property for total carbohydrates
@@ -27,7 +29,7 @@ namespace CA1_BackEnd.Models
 
         public double TotalCholesterol { get; set; } // New property for total cholesterol
 
-  
+
     }
 }
 
