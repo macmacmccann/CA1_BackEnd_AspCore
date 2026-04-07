@@ -18,42 +18,49 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: List repo files
+        run: Get-ChildItem -Path . -Recurse -Include *.sln,*.csproj | Select-Object FullName
+
+
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.x'
 
+      - name: Restore packages
+        run: dotnet restore "CA1_BackEnd/CA1_BackEnd.sln"
+  
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build "CA1_BackEnd/CA1_BackEnd.sln" --configuration Release --no-restore
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        run: dotnet publish "CA1_BackEnd/CA1_BackEnd.csproj" --configuration Release --no-build --output "./publish"
+
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          name: webapp
+          path: ./publish
 
   deploy:
     runs-on: windows-latest
     needs: build
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
-
+        contents: read 
+   
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: .net-app
+          name: webapp
       
       - name: Login to Azure
-        uses: azure/login@v2
+        uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_E40E07AEE4104F8AA7DB2FC50571F3A2 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_CC5F986455F047F398DFA5AB8D0B1F7C }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F8BDF5EF92874AD2925408970F549D2D }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+          
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
