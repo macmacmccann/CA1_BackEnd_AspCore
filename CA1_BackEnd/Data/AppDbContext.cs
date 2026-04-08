@@ -61,16 +61,16 @@ namespace CA1_BackEnd.Data
                 new Meal { Id = 38, Name = "Mushroom Risotto",    Picture = "risotto.jpg",         TotalFat = 17.0, Rating = 4.6, Difficulty = "Medium", PrepTime = 15, CookTime = 30, Servings = 3, Calories = 410, Protein = 10, Category = "Dinner" }
             );
             modelBuilder.Entity<Ingredient>().HasData(
-                new Ingredient { Id = 1,  Name = "Chicken",    Price = 8.99m,  Origin = "Ireland", IsOrganic = true,  Fats = 3.6,   Protein = 31.0 },
-                new Ingredient { Id = 2,  Name = "Rice",       Price = 2.50m,  Origin = "Italy",   IsOrganic = false, Fats = 0.3,   Protein = 2.7  },
-                new Ingredient { Id = 3,  Name = "Tomato",     Price = 1.20m,  Origin = "Spain",   IsOrganic = true,  Fats = 0.2,   Protein = 0.9  },
-                new Ingredient { Id = 4,  Name = "Cheese",     Price = 5.75m,  Origin = "France",  IsOrganic = false, Fats = 33.0,  Protein = 25.0 },
-                new Ingredient { Id = 5,  Name = "Pasta",      Price = 1.99m,  Origin = "Italy",   IsOrganic = true,  Fats = 1.5,   Protein = 13.0 },
-                new Ingredient { Id = 6,  Name = "Tomato",     Price = 2.49m,  Origin = "Italy",   IsOrganic = true,  Fats = 0.2,   Protein = 0.9  },
-                new Ingredient { Id = 7,  Name = "Garlic",     Price = 1.79m,  Origin = "Italy",   IsOrganic = false, Fats = 0.5,   Protein = 6.4  },
-                new Ingredient { Id = 8,  Name = "Parmesan",   Price = 3.99m,  Origin = "Italy",   IsOrganic = true,  Fats = 29.0,  Protein = 35.8 },
-                new Ingredient { Id = 9,  Name = "Basil",      Price = 1.49m,  Origin = "Italy",   IsOrganic = true,  Fats = 0.6,   Protein = 3.2  },
-                new Ingredient { Id = 10, Name = "Olive Oil",  Price = 4.99m,  Origin = "Italy",   IsOrganic = false, Fats = 100.0, Protein = 0.0  }
+                new Ingredient { Id = 1,  Name = "Chicken",   Price = 8.99m,  Origin = "Ireland", IsOrganic = true,  Fats = 3.6,   Protein = 31.0, IsVegetarian = "false", NutrientGroups = "Protein" },
+                new Ingredient { Id = 2,  Name = "Rice",      Price = 2.50m,  Origin = "Italy",   IsOrganic = false, Fats = 0.3,   Protein = 2.7,  IsVegetarian = "true",  NutrientGroups = "Carbohydrates" },
+                new Ingredient { Id = 3,  Name = "Tomato",    Price = 1.20m,  Origin = "Spain",   IsOrganic = true,  Fats = 0.2,   Protein = 0.9,  IsVegetarian = "true",  NutrientGroups = "Vitamins" },
+                new Ingredient { Id = 4,  Name = "Cheese",    Price = 5.75m,  Origin = "France",  IsOrganic = false, Fats = 33.0,  Protein = 25.0, IsVegetarian = "true",  NutrientGroups = "Protein,Fats" },
+                new Ingredient { Id = 5,  Name = "Pasta",     Price = 1.99m,  Origin = "Italy",   IsOrganic = true,  Fats = 1.5,   Protein = 13.0, IsVegetarian = "true",  NutrientGroups = "Carbohydrates" },
+                new Ingredient { Id = 6,  Name = "Tomato",    Price = 2.49m,  Origin = "Italy",   IsOrganic = true,  Fats = 0.2,   Protein = 0.9,  IsVegetarian = "true",  NutrientGroups = "Vitamins" },
+                new Ingredient { Id = 7,  Name = "Garlic",    Price = 1.79m,  Origin = "Italy",   IsOrganic = false, Fats = 0.5,   Protein = 6.4,  IsVegetarian = "true",  NutrientGroups = "Vitamins" },
+                new Ingredient { Id = 8,  Name = "Parmesan",  Price = 3.99m,  Origin = "Italy",   IsOrganic = true,  Fats = 29.0,  Protein = 35.8, IsVegetarian = "true",  NutrientGroups = "Protein,Fats" },
+                new Ingredient { Id = 9,  Name = "Basil",     Price = 1.49m,  Origin = "Italy",   IsOrganic = true,  Fats = 0.6,   Protein = 3.2,  IsVegetarian = "true",  NutrientGroups = "Vitamins" },
+                new Ingredient { Id = 10, Name = "Olive Oil", Price = 4.99m,  Origin = "Italy",   IsOrganic = false, Fats = 100.0, Protein = 0.0,  IsVegetarian = "true",  NutrientGroups = "Fats" }
             );
         }
     }
