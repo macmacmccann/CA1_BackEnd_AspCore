@@ -1,4 +1,7 @@
 
+using CA1_BackEnd.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace CA1_BackEnd
 {
     public class Program
@@ -7,7 +10,10 @@ namespace CA1_BackEnd
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // Register the DbContext — reads the connection string from appsettings.json
+            // and tells EF Core to use SQLite
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddControllers();
             builder.WebHost.UseUrls("http://0.0.0.0:5228");
@@ -16,6 +22,13 @@ namespace CA1_BackEnd
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+
+            // Apply any pending migrations and create the database automatically on startup
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                db.Database.Migrate();
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

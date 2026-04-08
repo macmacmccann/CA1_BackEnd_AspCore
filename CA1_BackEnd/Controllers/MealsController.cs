@@ -8,18 +8,27 @@ namespace CA1_BackEnd.Controllers
     [ApiController]
     public class MealsController : ControllerBase
     {
-        private static List<Meal> meals => DataStore.Meals;
+        // BEFORE: private static List<Meal> meals => DataStore.Meals;
+        // AFTER:  inject AppDbContext — ASP.NET Core hands this to us automatically
+        private readonly AppDbContext _context;
+
+        public MealsController(AppDbContext context)
+        {
+            _context = context;
+        }
 
         [HttpGet]
         public ActionResult<IEnumerable<Meal>> GetAllMeals()
         {
-            return Ok(meals);
+            // BEFORE: return Ok(meals);
+            // AFTER:  .ToList() executes the SQL query and returns the results
+            return Ok(_context.Meals.ToList());
         }
 
         [HttpGet("{id}")]
         public ActionResult<Meal> GetMealById(int id)
         {
-            var meal = meals.FirstOrDefault(m => m.Id == id);
+            var meal = _context.Meals.FirstOrDefault(m => m.Id == id);
             if (meal == null)
                 return NotFound();
 
@@ -29,81 +38,78 @@ namespace CA1_BackEnd.Controllers
         [HttpGet("search/name/{name}")]
         public ActionResult<IEnumerable<Meal>> GetByName(string name)
         {
-            var result = meals.Where(m => m.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
-            return Ok(result);
+            var result = _context.Meals.Where(m => m.Name.ToLower().Contains(name.ToLower()));
+            return Ok(result.ToList());
         }
 
         [HttpGet("search/category/{category}")]
         public ActionResult<IEnumerable<Meal>> GetByCategory(string category)
         {
-            var result = meals.Where(m => m.Category.Equals(category, StringComparison.OrdinalIgnoreCase));
-            return Ok(result);
+            var result = _context.Meals.Where(m => m.Category.ToLower() == category.ToLower());
+            return Ok(result.ToList());
         }
 
         [HttpGet("search/totalFat/{totalFat}")]
         public ActionResult<IEnumerable<Meal>> GetByTotalFat(double totalFat)
         {
-            var result = meals.Where(m => m.TotalFat == totalFat);
-            return Ok(result);
+            var result = _context.Meals.Where(m => m.TotalFat == totalFat);
+            return Ok(result.ToList());
         }
 
         [HttpGet("search/rating/{rating}")]
         public ActionResult<IEnumerable<Meal>> GetByRating(double rating)
         {
-            var result = meals.Where(m => m.Rating == rating);
-            return Ok(result);
+            var result = _context.Meals.Where(m => m.Rating == rating);
+            return Ok(result.ToList());
         }
 
         [HttpGet("search/difficulty/{difficulty}")]
         public ActionResult<IEnumerable<Meal>> GetByDifficulty(string difficulty)
         {
-            var result = meals.Where(m => m.Difficulty.Equals(difficulty, StringComparison.OrdinalIgnoreCase));
-            return Ok(result);
+            var result = _context.Meals.Where(m => m.Difficulty.ToLower() == difficulty.ToLower());
+            return Ok(result.ToList());
         }
 
         [HttpGet("search/prepTime/{prepTime}")]
         public ActionResult<IEnumerable<Meal>> GetByPrepTime(int prepTime)
         {
-            var result = meals.Where(m => m.PrepTime == prepTime);
-            return Ok(result);
+            var result = _context.Meals.Where(m => m.PrepTime == prepTime);
+            return Ok(result.ToList());
         }
 
         [HttpGet("search/cookTime/{cookTime}")]
         public ActionResult<IEnumerable<Meal>> GetByCookTime(int cookTime)
         {
-            var result = meals.Where(m => m.CookTime == cookTime);
-            return Ok(result);
+            var result = _context.Meals.Where(m => m.CookTime == cookTime);
+            return Ok(result.ToList());
         }
 
         [HttpGet("search/servings/{servings}")]
         public ActionResult<IEnumerable<Meal>> GetByServings(int servings)
         {
-            var result = meals.Where(m => m.Servings == servings);
-            return Ok(result);
+            var result = _context.Meals.Where(m => m.Servings == servings);
+            return Ok(result.ToList());
         }
 
         [HttpGet("search/calories/{calories}")]
         public ActionResult<IEnumerable<Meal>> GetByCalories(double calories)
         {
-            var result = meals.Where(m => m.Calories == calories);
-            return Ok(result);
+            var result = _context.Meals.Where(m => m.Calories == calories);
+            return Ok(result.ToList());
         }
 
         [HttpGet("search/minprotein/{minProtein}")]
-        public ActionResult<IEnumerable<Ingredient>> GetByMinProtein(double minProtein)
+        public ActionResult<IEnumerable<Meal>> GetByMinProtein(double minProtein)
         {
-            var result = meals.Where(i => i.Protein >= minProtein);
-            return Ok(result);
+            var result = _context.Meals.Where(m => m.Protein >= minProtein);
+            return Ok(result.ToList());
         }
-
-
-
 
         [HttpGet("search/protein/{protein}")]
         public ActionResult<IEnumerable<Meal>> GetByProtein(double protein)
         {
-            var result = meals.Where(m => m.Protein == protein);
-            return Ok(result);
+            var result = _context.Meals.Where(m => m.Protein == protein);
+            return Ok(result.ToList());
         }
 
         [HttpPost]
@@ -112,14 +118,18 @@ namespace CA1_BackEnd.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            meals.Add(meal);
+            // BEFORE: meals.Add(meal);  — added to RAM list, gone on restart
+            // AFTER:  Add to DbContext then SaveChanges() writes it to the .db file
+            _context.Meals.Add(meal);
+            _context.SaveChanges();
+
             return CreatedAtAction(nameof(GetMealById), new { id = meal.Id }, meal);
         }
 
         [HttpPut("{id}")]
         public ActionResult<Meal> UpdateMeal(int id, [FromBody] Meal updatedMeal)
         {
-            var meal = meals.FirstOrDefault(m => m.Id == id);
+            var meal = _context.Meals.FirstOrDefault(m => m.Id == id);
             if (meal == null)
                 return NotFound();
 
@@ -139,17 +149,22 @@ namespace CA1_BackEnd.Controllers
             meal.Category = updatedMeal.Category;
             meal.PlanId = updatedMeal.PlanId;
 
+            // EF is tracking the meal object — SaveChanges() detects what changed and writes it
+            _context.SaveChanges();
+
             return Ok(meal);
         }
 
         [HttpDelete("{id}")]
         public ActionResult DeleteMeal(int id)
         {
-            var meal = meals.FirstOrDefault(m => m.Id == id);
+            var meal = _context.Meals.FirstOrDefault(m => m.Id == id);
             if (meal == null)
                 return NotFound();
 
-            meals.Remove(meal);
+            _context.Meals.Remove(meal);
+            _context.SaveChanges();
+
             return Ok(meal);
         }
     }
