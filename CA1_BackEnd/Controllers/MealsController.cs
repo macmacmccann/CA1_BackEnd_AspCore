@@ -89,6 +89,16 @@ namespace CA1_BackEnd.Controllers
             return Ok(result);
         }
 
+        [HttpGet("search/minprotein/{minProtein}")]
+        public ActionResult<IEnumerable<Ingredient>> GetByMinProtein(double minProtein)
+        {
+            var result = meals.Where(i => i.Protein >= minProtein);
+            return Ok(result);
+        }
+
+
+
+
         [HttpGet("search/protein/{protein}")]
         public ActionResult<IEnumerable<Meal>> GetByProtein(double protein)
         {
