@@ -16,25 +16,25 @@ namespace CA1_BackEnd.Migrations
                 name: "Ingredients",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Price = table.Column<decimal>(type: "TEXT", nullable: false),
-                    Origin = table.Column<string>(type: "TEXT", nullable: false),
-                    IsOrganic = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Fats = table.Column<double>(type: "REAL", nullable: false),
-                    Protein = table.Column<double>(type: "REAL", nullable: false),
-                    Carbohydrates = table.Column<double>(type: "REAL", nullable: false),
-                    Fiber = table.Column<double>(type: "REAL", nullable: false),
-                    IsVegetarian = table.Column<string>(type: "TEXT", nullable: false),
-                    EnergyContent = table.Column<double>(type: "REAL", nullable: false),
-                    ServingSize = table.Column<double>(type: "REAL", nullable: false),
-                    CaloriesPerServing = table.Column<double>(type: "REAL", nullable: false),
-                    NutrientGroups = table.Column<string>(type: "TEXT", nullable: false),
-                    SodiumContent = table.Column<double>(type: "REAL", nullable: false),
-                    MacronutrientComposition = table.Column<double>(type: "REAL", nullable: false),
-                    DietaryFiberPercentage = table.Column<double>(type: "REAL", nullable: false),
-                    CalorieDensity = table.Column<double>(type: "REAL", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    Origin = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsOrganic = table.Column<bool>(type: "bit", nullable: false),
+                    Fats = table.Column<double>(type: "float", nullable: false),
+                    Protein = table.Column<double>(type: "float", nullable: false),
+                    Carbohydrates = table.Column<double>(type: "float", nullable: false),
+                    Fiber = table.Column<double>(type: "float", nullable: false),
+                    IsVegetarian = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EnergyContent = table.Column<double>(type: "float", nullable: false),
+                    ServingSize = table.Column<double>(type: "float", nullable: false),
+                    CaloriesPerServing = table.Column<double>(type: "float", nullable: false),
+                    NutrientGroups = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SodiumContent = table.Column<double>(type: "float", nullable: false),
+                    MacronutrientComposition = table.Column<double>(type: "float", nullable: false),
+                    DietaryFiberPercentage = table.Column<double>(type: "float", nullable: false),
+                    CalorieDensity = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,26 +45,26 @@ namespace CA1_BackEnd.Migrations
                 name: "Meals",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Picture = table.Column<string>(type: "TEXT", nullable: true),
-                    TotalFat = table.Column<double>(type: "REAL", nullable: false),
-                    Rating = table.Column<double>(type: "REAL", nullable: true),
-                    Difficulty = table.Column<string>(type: "TEXT", nullable: false),
-                    PrepTime = table.Column<int>(type: "INTEGER", nullable: false),
-                    CookTime = table.Column<int>(type: "INTEGER", nullable: false),
-                    Servings = table.Column<int>(type: "INTEGER", nullable: false),
-                    Calories = table.Column<double>(type: "REAL", nullable: false),
-                    Protein = table.Column<double>(type: "REAL", nullable: false),
-                    Category = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    IsVegetarian = table.Column<bool>(type: "INTEGER", nullable: false),
-                    PlanId = table.Column<int>(type: "INTEGER", nullable: true),
-                    TotalProtein = table.Column<double>(type: "REAL", nullable: false),
-                    TotalCarbohydrates = table.Column<double>(type: "REAL", nullable: false),
-                    TotalFiber = table.Column<double>(type: "REAL", nullable: false),
-                    TotalCholesterol = table.Column<double>(type: "REAL", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Picture = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TotalFat = table.Column<double>(type: "float", nullable: false),
+                    Rating = table.Column<double>(type: "float", nullable: true),
+                    Difficulty = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PrepTime = table.Column<int>(type: "int", nullable: false),
+                    CookTime = table.Column<int>(type: "int", nullable: false),
+                    Servings = table.Column<int>(type: "int", nullable: false),
+                    Calories = table.Column<double>(type: "float", nullable: false),
+                    Protein = table.Column<double>(type: "float", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsVegetarian = table.Column<bool>(type: "bit", nullable: false),
+                    PlanId = table.Column<int>(type: "int", nullable: true),
+                    TotalProtein = table.Column<double>(type: "float", nullable: false),
+                    TotalCarbohydrates = table.Column<double>(type: "float", nullable: false),
+                    TotalFiber = table.Column<double>(type: "float", nullable: false),
+                    TotalCholesterol = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -75,10 +75,10 @@ namespace CA1_BackEnd.Migrations
                 name: "Plans",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

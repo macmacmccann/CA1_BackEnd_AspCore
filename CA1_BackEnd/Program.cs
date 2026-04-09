@@ -11,9 +11,9 @@ namespace CA1_BackEnd
             var builder = WebApplication.CreateBuilder(args);
 
             // Register the DbContext — reads the connection string from appsettings.json
-            // and tells EF Core to use SQLite
+            // and tells EF Core to use SQL Server
             builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddControllers();
             builder.WebHost.UseUrls("http://0.0.0.0:5228");

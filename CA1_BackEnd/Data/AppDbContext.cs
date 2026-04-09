@@ -5,7 +5,7 @@ namespace CA1_BackEnd.Data
 {
     public class AppDbContext : DbContext
     {
-        // DbContextOptions lets Program.cs tell this class which database to use
+        // dbContextOptions lets Program.cs tell this class which database to use
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         // Each DbSet maps to a table in the database
@@ -15,6 +15,11 @@ namespace CA1_BackEnd.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // build fail sql serrver requires explicit precision for decimal columns
+            modelBuilder.Entity<Ingredient>()
+                .Property(i => i.Price)
+                .HasPrecision(18, 2);
+
             // HasData seeds the database on the first migration — same data as DataStore.cs
             // but now EF writes it into the .db file once and it stays there permanently
 
