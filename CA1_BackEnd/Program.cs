@@ -29,13 +29,10 @@ namespace CA1_BackEnd
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 try
                 {
-                    // ensure the database is created before migration
-                    db.Database.EnsureCreated();
                     db.Database.Migrate();
                 }
-                    catch (Exception ex)
-                    {
-                    
+                catch (Exception ex)
+                {
                     Console.WriteLine($"Database migration failed: {ex.Message}");
                     throw;
                 }
