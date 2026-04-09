@@ -27,7 +27,18 @@ namespace CA1_BackEnd
             using (var scope = app.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                db.Database.Migrate();
+                try
+                {
+                    // ensure the database is created before migration
+                    db.Database.EnsureCreated();
+                    db.Database.Migrate();
+                }
+                    catch (Exception ex)
+                    {
+                    
+                    Console.WriteLine($"Database migration failed: {ex.Message}");
+                    throw;
+                }
             }
 
             // Configure the HTTP request pipeline.
