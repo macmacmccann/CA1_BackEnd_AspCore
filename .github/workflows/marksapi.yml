@@ -59,7 +59,7 @@ jobs:
       - name: Build and run migrations
         env:
           ConnectionStrings__DefaultConnection: "Server=.;Database=CA1_BackEnd;Trusted_Connection=true;"
-        run: dotnet build
+        run: dotnet build  "${{ env.SOLUTION_PATH }}" --configuration ${{ env.CONFIGURATION }} --no-restore
 
 
       - name: Generate OpenAPI Specification
