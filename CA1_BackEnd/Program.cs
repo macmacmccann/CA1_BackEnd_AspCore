@@ -13,7 +13,11 @@ namespace CA1_BackEnd
             // Register the DbContext — reads the connection string from appsettings.json
             // and tells EF Core to use SQL Server
             builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+                    sqlOptions => sqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: 5,
+                        maxRetryDelay: TimeSpan.FromSeconds(10),
+                        errorNumbersToAdd: null)));
 
             builder.Services.AddControllers();
             if (builder.Environment.IsDevelopment())
