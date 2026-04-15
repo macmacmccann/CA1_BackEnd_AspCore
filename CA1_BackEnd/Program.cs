@@ -16,6 +16,10 @@ namespace CA1_BackEnd
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddControllers();
+            if (builder.Environment.IsDevelopment())
+            {
+                builder.WebHost.UseUrls("http://0.0.0.0:5228");
+            }
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -37,12 +41,12 @@ namespace CA1_BackEnd
                 }
             }
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            // Enable Swagger in all environments
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
+            // Redirect root URL to Swagger
+            app.MapGet("/", () => Results.Redirect("/swagger"));
 
           //  app.UseHttpsRedirection();
 
