@@ -99,13 +99,6 @@ namespace CA1_BackEnd.Controllers
             return Ok(ingredient);
         }
 
-        [HttpGet("organic")]
-        public ActionResult<IEnumerable<Ingredient>> GetOrganic(bool? isOrganic = true)
-        {
-            var result = _context.Ingredients.Where(i => i.IsOrganic == isOrganic);
-            return Ok(result.ToList());
-        }
-
         [HttpGet("page")]
         public ActionResult<IEnumerable<Ingredient>> GetPaged([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
@@ -134,7 +127,7 @@ namespace CA1_BackEnd.Controllers
             return Ok(ingredient);
         }
 
-        [HttpPut("simple-update")]
+        [HttpPut("simple-update/{id}")]
         public ActionResult SimpleUpdateIngredient(int id, Ingredient simpleUpdatedIngredient)
         {
             var ingredient = _context.Ingredients.FirstOrDefault(i => i.Id == id);

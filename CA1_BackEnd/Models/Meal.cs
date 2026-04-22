@@ -1,6 +1,3 @@
-// hi
-// hi again - testing file editing
-
 namespace CA1_BackEnd.Models
 {
     public class Meal
