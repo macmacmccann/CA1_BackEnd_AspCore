@@ -17,7 +17,7 @@ namespace CA1_BackEnd.Models
         public double EnergyContent { get; set; } // Calories per serving
         public double ServingSize { get; set; } // Quantity of the ingredient used each time (grams, ounces, etc.)
         public double CaloriesPerServing { get; set; } // Calories per specified serving size
-        public string NutrientGroups { get; set; } // Categories for macronutrients, vitamins, minerals, etc.
+        public string? NutrientGroups { get; set; } // Categories for macronutrients, vitamins, minerals, etc.
         public double SodiumContent { get; set; } // Sodium content in milligrams per serving
         public double MacronutrientComposition { get; set; } // Percentage breakdown of carbs, proteins, fats
         public double DietaryFiberPercentage { get; set; } // Percentage of dietary fiber compared to total carbohydrates
