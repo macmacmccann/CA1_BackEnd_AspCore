@@ -219,7 +219,11 @@ namespace CA1_BackEnd.Controllers
             if (meal == null)
                 return NotFound();
 
-            var allIngredients = _context.Ingredients.ToList();
+            var allIngredients = _context.Ingredients.Where(i => i.MealId == null || i.MealId == 0).ToList();
+            if (allIngredients.Count == 0)
+            {
+                allIngredients = _context.Ingredients.ToList();
+            }
             var existing = _context.Ingredients.Where(i => i.MealId == mealId).ToList();
             _context.Ingredients.RemoveRange(existing);
 

@@ -24,6 +24,7 @@ namespace CA1_BackEnd.Models
         public double CalorieDensity { get; set; } // Calories per gram or unit volume
 
         public int? MealId { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public Meal? Meal { get; set; }
 
     
