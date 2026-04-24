@@ -10,14 +10,29 @@ namespace CA1_BackEnd
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Skip migrations when swagger CLI is generating (tofile command)
+            var isSwaggerCli = args.Length > 0 && args.Contains("tofile");
+
+            // Get connection string - guard against missing config in swagger CLI context
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            if (string.IsNullOrEmpty(connectionString) && !isSwaggerCli)
+            {
+                throw new InvalidOperationException("Connection string 'DefaultConnection' is missing. Check appsettings.json or environment variables.");
+            }
+
             // Register the DbContext — reads the connection string from appsettings.json
             // and tells EF Core to use SQL Server
             builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-                    sqlOptions => sqlOptions.EnableRetryOnFailure(
-                        maxRetryCount: 5,
-                        maxRetryDelay: TimeSpan.FromSeconds(10),
-                        errorNumbersToAdd: null)));
+            {
+                if (!string.IsNullOrEmpty(connectionString))
+                {
+                    options.UseSqlServer(connectionString,
+                        sqlOptions => sqlOptions.EnableRetryOnFailure(
+                            maxRetryCount: 5,
+                            maxRetryDelay: TimeSpan.FromSeconds(10),
+                            errorNumbersToAdd: null));
+                }
+            });
 
             builder.Services.AddControllers();
             if (builder.Environment.IsDevelopment())
@@ -31,17 +46,21 @@ namespace CA1_BackEnd
             var app = builder.Build();
 
             // Apply any pending migrations and create the database automatically on startup
-            using (var scope = app.Services.CreateScope())
+            // Skip this when swagger CLI is generating (tofile command)
+            if (!isSwaggerCli)
             {
-                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                try
+                using (var scope = app.Services.CreateScope())
                 {
-                    db.Database.Migrate();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Database migration failed: {ex.Message}");
-                    throw;
+                    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                    try
+                    {
+                        db.Database.Migrate();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Database migration failed: {ex.Message}");
+                        throw;
+                    }
                 }
             }
 
