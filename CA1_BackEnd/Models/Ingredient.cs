@@ -12,7 +12,7 @@ namespace CA1_BackEnd.Models
 
         public double Carbohydrates { get; set; } // New property for carbohydrates
         public double Fiber { get; set; } // New property for fiber
-        public string IsVegetarian { get; set; } // Changed from required to bool
+        public bool IsVegetarian { get; set; }
 
         public double EnergyContent { get; set; } // Calories per serving
         public double ServingSize { get; set; } // Quantity of the ingredient used each time (grams, ounces, etc.)
@@ -27,6 +27,5 @@ namespace CA1_BackEnd.Models
         [System.Text.Json.Serialization.JsonIgnore]
         public Meal? Meal { get; set; }
 
-    
     }
 }
