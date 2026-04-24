@@ -183,6 +183,7 @@ namespace CA1_BackEnd.Controllers
                 return NotFound();
 
             ingredient.MealId = mealId;
+            ingredient.Id = 0;
             _context.Ingredients.Add(ingredient);
             _context.SaveChanges();
 
@@ -203,6 +204,7 @@ namespace CA1_BackEnd.Controllers
             {
                 ing.MealId = mealId;
                 ing.Id = 0;
+                ing.Name = ing.Name ?? "";
                 _context.Ingredients.Add(ing);
             }
             _context.SaveChanges();
