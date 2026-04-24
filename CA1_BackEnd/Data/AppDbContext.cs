@@ -20,6 +20,11 @@ namespace CA1_BackEnd.Data
                 .Property(i => i.Price)
                 .HasPrecision(18, 2);
 
+            modelBuilder.Entity<Meal>()
+                .HasMany(m => m.Ingredients)
+                .WithOne(i => i.Meal)
+                .HasForeignKey(i => i.MealId);
+
             // HasData seeds the database on the first migration — same data as DataStore.cs
             // but now EF writes it into the .db file once and it stays there permanently
 

@@ -23,6 +23,9 @@ namespace CA1_BackEnd.Models
         public double DietaryFiberPercentage { get; set; } // Percentage of dietary fiber compared to total carbohydrates
         public double CalorieDensity { get; set; } // Calories per gram or unit volume
 
+        public int? MealId { get; set; }
+        public Meal? Meal { get; set; }
+
     
     }
 }

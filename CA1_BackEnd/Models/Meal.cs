@@ -26,6 +26,8 @@ namespace CA1_BackEnd.Models
 
         public double TotalCholesterol { get; set; } // New property for total cholesterol
 
+        public List<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
+
 
     }
 }

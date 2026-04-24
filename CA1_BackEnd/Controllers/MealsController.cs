@@ -167,5 +167,91 @@ namespace CA1_BackEnd.Controllers
 
             return Ok(meal);
         }
+
+        [HttpGet("{mealId}/ingredients")]
+        public ActionResult<IEnumerable<Ingredient>> GetMealIngredients(int mealId)
+        {
+            var ingredients = _context.Ingredients.Where(i => i.MealId == mealId).ToList();
+            return Ok(ingredients);
+        }
+
+        [HttpPost("{mealId}/ingredients")]
+        public ActionResult<Ingredient> AddIngredientToMeal(int mealId, [FromBody] Ingredient ingredient)
+        {
+            var meal = _context.Meals.FirstOrDefault(m => m.Id == mealId);
+            if (meal == null)
+                return NotFound();
+
+            ingredient.MealId = mealId;
+            _context.Ingredients.Add(ingredient);
+            _context.SaveChanges();
+
+            return CreatedAtAction(nameof(GetMealIngredients), new { mealId = mealId }, ingredient);
+        }
+
+        [HttpPut("{mealId}/ingredients")]
+        public ActionResult SetMealIngredients(int mealId, [FromBody] List<Ingredient> ingredients)
+        {
+            var meal = _context.Meals.FirstOrDefault(m => m.Id == mealId);
+            if (meal == null)
+                return NotFound();
+
+            var existing = _context.Ingredients.Where(i => i.MealId == mealId).ToList();
+            _context.Ingredients.RemoveRange(existing);
+
+            foreach (var ing in ingredients)
+            {
+                ing.MealId = mealId;
+                ing.Id = 0;
+                _context.Ingredients.Add(ing);
+            }
+            _context.SaveChanges();
+
+            return Ok(_context.Ingredients.Where(i => i.MealId == mealId).ToList());
+        }
+
+        [HttpPost("{mealId}/ingredients/random")]
+        public ActionResult<IEnumerable<Ingredient>> AddRandomIngredients(int mealId, [FromQuery] int count = 3)
+        {
+            var meal = _context.Meals.FirstOrDefault(m => m.Id == mealId);
+            if (meal == null)
+                return NotFound();
+
+            var allIngredients = _context.Ingredients.ToList();
+            var existing = _context.Ingredients.Where(i => i.MealId == mealId).ToList();
+            _context.Ingredients.RemoveRange(existing);
+
+            var random = new Random();
+            var selected = allIngredients.OrderBy(x => random.Next()).Take(count).ToList();
+
+            foreach (var ing in selected)
+            {
+                var newIng = new Ingredient
+                {
+                    Name = ing.Name,
+                    Price = ing.Price,
+                    Origin = ing.Origin,
+                    IsOrganic = ing.IsOrganic,
+                    Fats = ing.Fats,
+                    Protein = ing.Protein,
+                    Carbohydrates = ing.Carbohydrates,
+                    Fiber = ing.Fiber,
+                    IsVegetarian = ing.IsVegetarian,
+                    EnergyContent = ing.EnergyContent,
+                    ServingSize = ing.ServingSize,
+                    CaloriesPerServing = ing.CaloriesPerServing,
+                    NutrientGroups = ing.NutrientGroups,
+                    SodiumContent = ing.SodiumContent,
+                    MacronutrientComposition = ing.MacronutrientComposition,
+                    DietaryFiberPercentage = ing.DietaryFiberPercentage,
+                    CalorieDensity = ing.CalorieDensity,
+                    MealId = mealId
+                };
+                _context.Ingredients.Add(newIng);
+            }
+            _context.SaveChanges();
+
+            return Ok(_context.Ingredients.Where(i => i.MealId == mealId).ToList());
+        }
     }
 }
